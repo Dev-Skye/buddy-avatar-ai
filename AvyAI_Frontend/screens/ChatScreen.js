@@ -293,7 +293,8 @@ const response = await axios.post(`${BACKEND_URL}/upload-audio`, formData, {
 const styles = StyleSheet.create({
   container: { 
     flex: 1,
-     backgroundColor: "#00025cff" 
+    backgroundColor: "#00025cff" 
+      //backgroundColor: '#300364cf',
     },
   header: { 
     flexDirection: "row", 
@@ -321,6 +322,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15 },
   sendButton: { 
     marginLeft: 10, 
+   // backgroundColor: '#c597fdff',
     backgroundColor: "#0078fe", 
     borderRadius: 20, 
     padding: 10 },

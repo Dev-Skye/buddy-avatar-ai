@@ -1,9 +1,12 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Animated, StyleSheet, Image, StatusBar } from 'react-native';
+import { View, Animated, StyleSheet, Image, StatusBar, useWindowDimensions } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { Audio } from 'expo-av';   // 👈 import expo-av
 
 export default function SplashScreen({ navigation }) {
+
+  const {width, height} = useWindowDimensions();
+  const isLargeScreen = width > 768;
   const animX = useRef(new Animated.Value(-300)).current; // Lottie slide-in
   const imageX = useRef(new Animated.Value(200)).current; // image starts offscreen right
   const imageOpacity = useRef(new Animated.Value(0)).current; // fade-in
@@ -46,12 +49,12 @@ export default function SplashScreen({ navigation }) {
       // Floating animation for 4 seconds
       const floatSequence = Animated.sequence([
         Animated.timing(floatAnim, {
-          toValue: -10,
+          toValue: isLargeScreen ? -height * 0.01 : -height * 0.02,
           duration: 1000,
           useNativeDriver: true,
         }),
         Animated.timing(floatAnim, {
-          toValue: 10,
+          toValue: isLargeScreen ? height * 0.01 : height * 0.02,
           duration: 1000,
           useNativeDriver: true,
         }),
@@ -76,7 +79,7 @@ export default function SplashScreen({ navigation }) {
           source={require('../assets/lottie/message.json')}
           autoPlay
           loop
-          style={{ width: 200, height: 200 }}
+          style={{ width: isLargeScreen ? 0.9 : width * 0.5, height: isLargeScreen ? 0.9 : height * 0.2 }}
         />
       </Animated.View>
 
@@ -87,12 +90,14 @@ export default function SplashScreen({ navigation }) {
             { translateX: imageX },
             { translateY: floatAnim },
           ],
-          marginTop: -30,
+          marginTop: -height * 0.05,
         }}
       >
         <Image
           source={require('../assets/images/logoc.png')}
-          style={styles.image}
+          style={{width: width * 0.3,
+                  height: height * 0.06,
+                  marginTop: height * 0.03}}
           resizeMode="contain"
         />
       </Animated.View>
@@ -106,9 +111,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#e2e1e9ff',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  image: {
-    width: 300,
-    height: 60,
-  },
+  }
 });

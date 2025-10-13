@@ -1,19 +1,22 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, Animated, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Animated, useWindowDimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import LottieView from 'lottie-react-native';
 
-const { width, height } = Dimensions.get('window');
 
 export default function LottieAnimation({navigation}) {
   // Size of each animation
-  const animSize = 100;
-  const gap = 20; // space between animations in final grid
+  
+  const { width, height } = useWindowDimensions();
+  const isLargeScreen = width > 768;
+  const animSize = isLargeScreen ? 140 : width * 0.30;
+  const gap = 10; // space between animations in final grid
 
   // Initial positions (off-screen corners)
-  const anim1 = useRef(new Animated.ValueXY({ x: -150, y: -150 })).current; // top-left
-  const anim2 = useRef(new Animated.ValueXY({ x: width + 150, y: -150 })).current; // top-right
-  const anim3 = useRef(new Animated.ValueXY({ x: -150, y: height + 150 })).current; // bottom-left
-  const anim4 = useRef(new Animated.ValueXY({ x: width + 150, y: height + 150 })).current; // bottom-right
+  const anim1 = useRef(new Animated.ValueXY({ x: -animSize, y: -animSize })).current; // top-left
+  const anim2 = useRef(new Animated.ValueXY({ x: width / 2, y: height /2 - animSize- gap})).current; // top-right
+ // const anim2 = useRef(new Animated.ValueXY({ x: width + animSize, y: -animSize })).current; // top-right
+  const anim3 = useRef(new Animated.ValueXY({ x: -animSize, y: height + animSize })).current; // bottom-left
+  const anim4 = useRef(new Animated.ValueXY({ x: width + animSize, y: height + animSize })).current; // bottom-right
 
   // Final positions (2x2 grid around center)
   const centerX = width / 2 - animSize / 2;
@@ -22,29 +25,29 @@ export default function LottieAnimation({navigation}) {
   useEffect(() => {
     Animated.sequence([
       Animated.timing(anim1, { toValue: { x: centerX - animSize - gap / 2, y: centerY - animSize - gap / 2 }, duration: 500, useNativeDriver: false }),
-      Animated.delay(1000),
+      Animated.delay(100),
       Animated.timing(anim2, { toValue: { x: centerX + gap / 2, y: centerY - animSize - gap / 2 }, duration: 500, useNativeDriver: false }),
-      Animated.delay(1000),
+      Animated.delay(100),
       Animated.timing(anim3, { toValue: { x: centerX - animSize - gap / 2, y: centerY + gap / 2 }, duration: 500, useNativeDriver: false }),
-      Animated.delay(1000),
+      Animated.delay(100),
       Animated.timing(anim4, { toValue: { x: centerX + gap / 2, y: centerY + gap / 2 }, duration: 500, useNativeDriver: false }),
     ]).start();
   }, []);
 
   return (
     <View style={styles.container}>
-        <View style={styles.animContainer}>
-            <Animated.View style={{ position: 'absolute', transform: anim1.getTranslateTransform() }}>
-                <LottieView source={require('../assets/lottie/laughing.json')} autoPlay loop style={{ width: 140, height: 140 }} />
+        <View style={[styles.animContainer, {marginLeft: isLargeScreen ? 0 : 45}]}>
+            <Animated.View style={{ position: 'absolute', transform: anim1.getTranslateTransform(), marginLeft: isLargeScreen ? 0 : 35 }}>
+                <LottieView source={require('../assets/lottie/laughing.json')} autoPlay loop style={{ width: animSize * 1.1, height: animSize * 0.88 }} />
             </Animated.View>
-            <Animated.View style={{ position: 'absolute', transform: anim2.getTranslateTransform() }}>
-                <LottieView source={require('../assets/lottie/heart.json')} autoPlay loop style={{ width: 120, height: 120 }} />
+            <Animated.View style={{ position: 'absolute', transform: anim2.getTranslateTransform(), marginLeft: isLargeScreen ? 0 : 15  }}>
+                <LottieView source={require('../assets/lottie/heart.json')} autoPlay loop style={{ width:  animSize * 0.75, height: animSize * 0.75 }} />
             </Animated.View>
             <Animated.View style={{ position: 'absolute', transform: anim3.getTranslateTransform() }}>
-                <LottieView source={require('../assets/lottie/head.json')} autoPlay loop style={{ width: 260, height: 260, marginTop: -20 }} />
+                <LottieView source={require('../assets/lottie/head.json')} autoPlay loop style={{ width: animSize * 1.8, height: animSize * 1.8}} />
             </Animated.View>
             <Animated.View style={{ position: 'absolute', transform: anim4.getTranslateTransform() }}>
-                <LottieView source={require('../assets/lottie/cool.json')} autoPlay loop style={{ width: 150, height: 150, marginTop: 35 }} />
+                <LottieView source={require('../assets/lottie/cool.json')} autoPlay loop style={{ width: animSize * 1.05, height: animSize * 1.05}} />
             </Animated.View>
         </View>
       
@@ -75,7 +78,8 @@ export default function LottieAnimation({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#00025cff',
+       // backgroundColor: '#300364e4',
+        backgroundColor: '#070865ff',
         justifyContent: 'center'
     },
    text:{
@@ -95,9 +99,8 @@ const styles = StyleSheet.create({
     },
     animContainer: {
     flex: 1,
-    justifyContent: 'flex-start',
-    marginRight: 200, // animations at top
-    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
     marginBottom: 100,
     marginTop: -100 // move down slightly if needed
   },
