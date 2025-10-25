@@ -41,7 +41,7 @@ export default function App() {
       >
         <Stack.Screen name='Splash' component={SplashScreen}/>
         <Stack.Screen name="Onboarding" component={OnboardingScreen}/>
-        <Stack.Screen name='Lottie' component={LottieAnimation}/>
+        {/* <Stack.Screen name='Lottie' component={LottieAnimation}/> */}
         <Stack.Screen name='Status' component={StatusSelectionScreen}/>
         <Stack.Screen name='Chat' component={ChatScreen}/>
         
