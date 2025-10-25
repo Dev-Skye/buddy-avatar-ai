@@ -13,8 +13,8 @@ export default function OnboardingScreen({navigation}){
             <View>
                 <Image
                 source={require('../assets/images/avatarshort.png')}
-                style={{height: isLargeScreen ? height * 0.7 : height * 0.6,
-                        width: isLargeScreen ? width * 0.4 : width * 0.6,
+                style={{height: isLargeScreen ? height * 0.7 : height * 0.7,
+                        width: isLargeScreen ? width * 0.4 : width * 0.7,
                         marginTop: -height * 0.03,}}
                 resizeMode="cover"
             />
@@ -23,10 +23,10 @@ export default function OnboardingScreen({navigation}){
 
             <Text style={{marginTop: isLargeScreen ? -height * 0.05 : -height * 0.05, fontFamily: 'Poppins-Black', fontSize: isLargeScreen ? 50 : 40, marginBottom: -19,color: '#fff'}}>
                 Hi, I am Buddy!</Text>
-            <Text style={{marginBottom: isLargeScreen ? height * 0.02 : height * 0.1, fontSize: isLargeScreen ? 23 : 20, fontFamily: 'Poppins-Medium', color: '#fff', marginTop: isLargeScreen ? height * 0.01 : 0}}>
+            <Text style={{marginBottom: isLargeScreen ? height * 0.02 : height * 0.1, fontSize: isLargeScreen ? 23 : 20, fontFamily: 'Poppins-Medium', color: '#fff', marginTop: isLargeScreen ? height * 0.01 : 5}}>
                 Your Digital Friend</Text>
     
-            <TouchableOpacity onPress={() => navigation.navigate("Lottie")}>
+            <TouchableOpacity onPress={() => navigation.navigate("Status")}>
                 {/* //Lottie  */}
                 <View style={{height: 70, width: 70, borderRadius: 50, backgroundColor: '#fff', marginTop: isLargeScreen ? height * 0.01 : -height * 0.03}}>
                 <Ionicons name="arrow-forward" size={20} color='#000' style={{paddingTop: 25, paddingLeft: 25}}/>
